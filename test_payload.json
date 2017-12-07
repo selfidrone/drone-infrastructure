@@ -1,0 +1,7 @@
+check {
+  type     = "http"
+  port     = "http"
+  interval = "10s"
+  timeout  = "2s"
+  path     = "/graph"
+}
