@@ -2,6 +2,6 @@
 terraform.tfstate
 terraform.tfstate.backup
 .envrc
-
+stack.yml
 template
 build

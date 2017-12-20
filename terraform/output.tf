@@ -1,24 +1,31 @@
-
-output "nomad_endpoint" {
-  value = "http://${module.open-faas-nomad.nomad_alb}:4646/"
+output "nomad_alb" {
+  value = "${aws_alb.nomad.dns_name}"
 }
 
-output "openfaas_endpoint" {
-  value = "http://${module.open-faas-nomad.openfaas_alb}:8080/"
+output "nats_alb" {
+  value = "${aws_alb.nats.dns_name}"
 }
 
-output "grafana_endpoint" {
-  value = "http://${module.open-faas-nomad.openfaas_alb}:3000/"
+output "fabio_alb" {
+  value = "${aws_alb.fabio.dns_name}"
 }
 
-output "prometheus_endpoint" {
-  value = "http://${module.open-faas-nomad.openfaas_alb}:9090/"
+output "openfaas_alb" {
+  value = "${aws_alb.openfaas.dns_name}"
 }
 
-output "s3_website_endpoint" {
-  value = "${module.images_bucket.website_endpoint}"
+output "vpc_id" {
+  value = "${aws_vpc.default.id}"
 }
 
-output "s3_bucket_domain_name" {
-  value = "${module.images_bucket.bucket_domain_name}"
+output "security_group" {
+  value = "${aws_security_group.allow_nomad.id}"
+}
+
+output "route_table_id" {
+  value = "${aws_vpc.default.main_route_table_id}"
+}
+
+output "subnets" {
+  value = ["${aws_subnet.default.*.id}"]
 }

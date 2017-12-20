@@ -17,6 +17,12 @@ job "faas-monitoring" {
 
   group "faas-monitoring" {
     count = 1
+    
+    ephemeral_disk {
+      migrate = true
+      size    = "500"
+      sticky  = true
+    }
 
     restart {
       attempts = 10
@@ -65,7 +71,7 @@ job "faas-monitoring" {
         memory = 128 # 128MB
 
         network {
-          mbits = 10
+          mbits = 1
 
           port "http" {}
         }
@@ -82,7 +88,7 @@ job "faas-monitoring" {
       driver = "docker"
 
 			artifact {
-			  source      = "https://raw.githubusercontent.com/hashicorp/faas-nomad/master/nomad_job_files/templates/prometheus.yml"
+			  source      = "https://raw.githubusercontent.com/nicholasjackson/drone-infrastrucuture/master/nomad_job_files/templates/prometheus_pi.yml"
 			  destination = "local/prometheus.yml.tpl"
 				mode        = "file"
 			}
@@ -130,10 +136,10 @@ job "faas-monitoring" {
 
       resources {
         cpu    = 200 # 200 MHz
-        memory = 256 # 256MB
+        memory = 128 # 256MB
 
         network {
-          mbits = 10
+          mbits = 1
 
           port "http" {
             static = 9090
@@ -161,6 +167,7 @@ job "faas-monitoring" {
 
       config {
         image = "fg2it/grafana-armhf:v4.6.2"
+        volumes = ["/var/lib/grafana:/var/lib/grafana"]
 
         port_map {
           http = 3000
@@ -172,7 +179,7 @@ job "faas-monitoring" {
         memory = 256 # 256MB
 
         network {
-          mbits = 10
+          mbits = 1
 
           port "http" {
             static = 3000

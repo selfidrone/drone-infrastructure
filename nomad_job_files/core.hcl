@@ -25,7 +25,10 @@ job "drone-core" {
       config {
         image = "nats-streaming:0.6.0-linux"
 
-        args = ["-store", "file", "-dir", "/tmp/nats"]
+        args = [
+          "-store", "file", "-dir", "/tmp/nats",
+          "-m", "8222",
+        ]
 
         port_map {
           client = 4222,
@@ -46,11 +49,11 @@ job "drone-core" {
           }
 
           port "monitoring" {
-            static = 6222 
+            static = 8222 
           }
 
           port "routing" {
-            static = 8222 
+            static = 6222 
           }
         }
       }
@@ -104,7 +107,7 @@ functions:
           {{printf "%s" .Raw}}
   - name: tweet
     function_name: tweet
-    message: picture.new
+    message: image.picture
     templates:
       input_template: |
         {

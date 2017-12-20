@@ -1,11 +1,3 @@
-resource "dnsimple_record" "s3" {
-  domain = "${var.dnsimple_domain}"
-  name   = "images.${var.dnsimple_subdomain}"
-  value  = "${var.s3_website_endpoint}"
-  type   = "CNAME"
-  ttl    = 360
-}
-
 resource "dnsimple_record" "nomad" {
   domain = "${var.dnsimple_domain}"
   name   = "nomad.${var.dnsimple_subdomain}"
@@ -38,10 +30,27 @@ resource "dnsimple_record" "openfaas" {
   ttl    = 360
 }
 
+resource "dnsimple_record" "nats" {
+  domain = "${var.dnsimple_domain}"
+  name   = "nats.${var.dnsimple_subdomain}"
+  value  = "${var.nats_endpoint}"
+  type   = "CNAME"
+  ttl    = 360
+}
+
+resource "dnsimple_record" "fabio" {
+  domain = "${var.dnsimple_domain}"
+  name   = "www.${var.dnsimple_subdomain}"
+  value  = "${var.fabio_endpoint}"
+  type   = "CNAME"
+  ttl    = 360
+}
+
 variable "dnsimple_domain" {}
 variable "dnsimple_subdomain" {}
-variable "s3_website_endpoint" {}
 variable "nomad_endpoint" {}
 variable "grafana_endpoint" {}
 variable "prometheus_endpoint" {}
 variable "openfaas_endpoint" {}
+variable "nats_endpoint" {}
+variable "fabio_endpoint" {}

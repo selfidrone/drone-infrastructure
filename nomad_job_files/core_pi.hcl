@@ -29,7 +29,12 @@ job "drone-core" {
       driver = "docker"
 
       config {
-        image = "nats:1.0.4-linux"
+        image = "nats-streaming:0.6.0-linux"
+
+        args = [
+          "-store", "file", "-dir", "/tmp/nats",
+          "-m", "8222",
+        ]
 
         port_map {
           client = 4222,
@@ -39,10 +44,11 @@ job "drone-core" {
       }
 
       resources {
-        cpu    = 200 # 100 MHz
+        cpu    = 400
+        memory = 256
 
         network {
-          mbits = 10
+          mbits = 1
 
           port "client" {
             static = 4222 
