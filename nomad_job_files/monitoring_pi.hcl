@@ -88,7 +88,7 @@ job "faas-monitoring" {
       driver = "docker"
 
 			artifact {
-			  source      = "https://raw.githubusercontent.com/nicholasjackson/drone-infrastrucuture/master/nomad_job_files/templates/prometheus_pi.yml"
+			  source      = "https://raw.githubusercontent.com/selfidrone/drone-infrastrucuture/master/nomad_job_files/templates/prometheus_pi.yml"
 			  destination = "local/prometheus.yml.tpl"
 				mode        = "file"
 			}
