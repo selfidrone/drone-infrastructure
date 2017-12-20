@@ -39,7 +39,8 @@ scrape_configs:
 
   - job_name: 'node'
     static_configs:
-      - targets: ['pi01.local.demo.gs:9100', 'pi02.local.demo.gs:9100']
+      - targets: ['pi01.local.demo.gs:9100']
+      - targets: ['pi02.local.demo.gs:9100']
 
 alerting:
   alertmanagers:
