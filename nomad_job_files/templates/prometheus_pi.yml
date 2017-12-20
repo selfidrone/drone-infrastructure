@@ -37,10 +37,10 @@ scrape_configs:
       - server: {{ env "NOMAD_IP_http" }}:8500
         services: ["statsd"]
 
-  - job_name: 'RPi01'
+  - job_name: 'node'
     static_configs:
       - targets: ['pi01.local.demo.gs:9100']
-  - job_name: 'RPi02'
+  - job_name: 'node'
     static_configs:
       - targets: ['pi02.local.demo.gs:9100']
 
