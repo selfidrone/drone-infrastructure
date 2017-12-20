@@ -26,21 +26,20 @@ scrape_configs:
       - targets: ['localhost:9090']
 
   - job_name: "gateway"
-    scrape_interval: 5s
+    scrape_interval: 15s
     consul_sd_configs:
       - server: {{ env "NOMAD_IP_http" }}:8500
         services: ["gateway"]
   
   - job_name: "statsd"
-    scrape_interval: 5s
+    scrape_interval: 15s
     consul_sd_configs:
       - server: {{ env "NOMAD_IP_http" }}:8500
         services: ["statsd"]
 
   - job_name: 'node'
     static_configs:
-      - targets: ['pi01.local.demo.gs:9100']
-      - targets: ['pi02.local.demo.gs:9100']
+      - targets: ['pi01.local.demo.gs:9100', 'pi02.local.demo.gs:9100']
 
 alerting:
   alertmanagers:
