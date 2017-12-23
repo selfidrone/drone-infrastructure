@@ -15,12 +15,12 @@ job "faas-monitoring" {
     value     = "4"
   }
 
-  group "faas-monitoring" {
+  group "prometheus" {
     count = 1
     
     ephemeral_disk {
       migrate = true
-      size    = "500"
+      size    = "100"
       sticky  = true
     }
 
@@ -33,6 +33,11 @@ job "faas-monitoring" {
 
     task "alertmanager" {
       driver = "docker"
+      
+      logs {
+        max_files     = 3
+        max_file_size = 3
+      }
 
 			artifact {
 			  source      = "https://raw.githubusercontent.com/hashicorp/faas-nomad/master/nomad_job_files/templates/alertmanager.yml"
@@ -87,8 +92,13 @@ job "faas-monitoring" {
     task "prometheus" {
       driver = "docker"
 
+      logs {
+        max_files     = 3
+        max_file_size = 3
+      }
+
 			artifact {
-			  source      = "https://raw.githubusercontent.com/selfidrone/drone-infrastrucuture/master/nomad_job_files/templates/prometheus_pi.yml"
+        source      = "https://raw.githubusercontent.com/selfidrone/drone-infrastructure/master/nomad_job_files/templates/prometheus_pi.yml"
 			  destination = "local/prometheus.yml.tpl"
 				mode        = "file"
 			}
@@ -161,9 +171,31 @@ job "faas-monitoring" {
         }
       }
     }
+  }
+
+  group "grafana" {
+    count = 1
+    
+    ephemeral_disk {
+      migrate = true
+      size    = "50"
+      sticky  = true
+    }
+
+    restart {
+      attempts = 10
+      interval = "5m"
+      delay    = "25s"
+      mode     = "delay"
+    }
 
     task "grafana" {
       driver = "docker"
+
+      logs {
+        max_files     = 3
+        max_file_size = 3
+      }
 
       config {
         image = "fg2it/grafana-armhf:v4.6.2"
@@ -172,6 +204,8 @@ job "faas-monitoring" {
         port_map {
           http = 3000
         }
+
+        dns_servers = ["${NOMAD_IP_http}", "8.8.8.8", "8.8.8.4"]
       }
 
       resources {
